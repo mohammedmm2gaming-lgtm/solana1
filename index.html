@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Axiom Pro Helper - Trading Tool</title>
+    <style>
+        body {
+            background-color: #0d1117; /* لون غامق احترافي */
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 40px;
+            width: 450px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .logo {
+            color: #58a6ff;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .description {
+            color: #8b949e;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        /* الزر "الملغم" تعليمياً */
+        .drag-button {
+            display: inline-block;
+            background: linear-gradient(90deg, #1f6feb, #58a6ff);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: move;
+            border: none;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(31, 111, 235, 0.4);
+        }
+        .drag-button:hover {
+            transform: scale(1.05);
+        }
+        .instruction {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #f85149; /* لون تحذيري */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">Axiom Trading Helper v2.0</div>
+    <p class="description">أداة مساعدة لزيادة سرعة تنفيذ عمليات الـ Buy/Sell في ميم كوينز.</p>
+    
+    <a href="javascript:(function(){ 
+        alert('مختبر الأمن السيبراني: الكود يعمل الآن داخل صفحة: ' + window.location.hostname);
+        document.body.innerHTML = '<h1 style=color:red;text-align:center;margin-top:100px;>تم كشف آلية عمل الـ Drainer بنجاح! كطالب أمن سيبراني، أنت الآن ترى كيف يمكن تغيير محتوى الصفحة بالكامل بكود بسيط.</h1>';
+    })();" class="drag-button">
+        DRAG ME TO TOOLBAR
+    </a>
+
+    <p class="instruction">قم بسحب الزر الأزرق إلى شريط المفضلات لتفعيل البوت</p>
+</div>
+
+</body>
+</html>
